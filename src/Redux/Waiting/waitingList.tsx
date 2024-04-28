@@ -13,7 +13,7 @@ const initialState: waitingListState = {
   success: [],
 };
 
-const baseApiUrl = "http://localhost:3002";
+const baseApiUrl = "https://server-3qpe.onrender.com";
 
 export const subscriberToWaitingList = createAsyncThunk(
   "waitingList/subscriberToWaitingList",
