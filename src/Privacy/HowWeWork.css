@@ -1,0 +1,25 @@
+.how-we-work {
+    max-width: 800px;
+    margin: 0 auto;
+    padding:  160px 20px;
+    background-color: var(--darkBlue);
+    color: #fff;
+  }
+  
+  .how-we-work h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .how-we-work h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .how-we-work p {
+    margin-bottom: 15px;
+  }
+  
