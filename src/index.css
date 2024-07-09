@@ -25,6 +25,7 @@
    padding: 0;
    margin: 0;
    font-family: var(--font-family);
+   background-color: #010811;
  }
  button {
    cursor: pointer;
