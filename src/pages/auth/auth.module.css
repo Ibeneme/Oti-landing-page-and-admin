@@ -1,0 +1,99 @@
+.loginContainer {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1.4rem;
+  border-radius: 8px;
+  background-color: #fff;
+  font-family: var(--font-family);
+}
+
+.loginContainerH1 {
+  font-weight: 900;
+  font-size: xx-large;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup.error .formInput {
+  border-color: red;
+}
+
+.formGroup.error .errorMessage {
+  color: red;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.formGroup label {
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.formInput {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: var(--font-family);
+}
+
+.passwordContainer {
+  display: flex;
+  align-items: center;
+}
+
+.togglePassword {
+  background: none;
+  border: none;
+  margin-left: -30px;
+  cursor: pointer;
+}
+
+.submitButton {
+  padding: 0.5rem;
+  background-color: #ffaa00;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 16px;
+  font-family: var(--font-family);
+}
+
+.passwordHint {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  background-color: #ffaa0014;
+  padding: 12px;
+  color: #ffaa00;
+  font-size: 14px;
+}
+
+.adminButton {
+  background-color: transparent;
+  border: none;
+  font-family: var(--font-family);
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.backButton {
+  background-color: transparent;
+  border: none;
+  margin-bottom: 24px;
+  font-size: 16px;
+  font-family: var(--font-family);
+  color: #666;
+}
