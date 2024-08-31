@@ -8,10 +8,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { fCurrency } from "../../../utils/format-number";
-import { useNavigate } from "react-router-dom";
 type Props = {
   users: User[];
-  name: string;
 };
 
 const columnHelper = createColumnHelper<User>();
@@ -25,7 +23,7 @@ const columns = [
           <div className="relative inline-block shrink-0 rounded-2xl me-3">
             <img
               src={user?.profilePhoto || demoImg}
-              className="w-[40px] aspect-square inline-block shrink-0 rounded-full object-cover"
+              className="w-[40px] aspect-square inline-block shrink-0 rounded-lg"
               alt=""
             />
           </div>
@@ -85,8 +83,7 @@ const columns = [
   }),
 ];
 
-const Table = ({ users, name }: Props) => {
-  const navigate = useNavigate();
+const Table = ({ users }: Props) => {
   const table = useReactTable({
     data: users,
     columns,
@@ -99,7 +96,7 @@ const Table = ({ users, name }: Props) => {
           <div className="relative flex flex-col min-w-0 break-words bg-clip-border rounded-2xl bg-light/30">
             <div className="flex justify-between items-stretch flex-wrap pb-0 bg-transparent">
               <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-                {name}
+                All Users
               </h4>
               <div className="relative flex flex-wrap items-center my-2">
                 {/* <a
@@ -139,7 +136,7 @@ const Table = ({ users, name }: Props) => {
                     {table.getHeaderGroups().map((headerGroup) => (
                       <tr
                         key={headerGroup.id}
-                        className="font-semibold text-[0.95rem] text-secondary-dark cursor-pointer"
+                        className="font-semibold text-[0.95rem] text-secondary-dark"
                       >
                         {headerGroup.headers.map((header) => (
                           <th
@@ -162,9 +159,6 @@ const Table = ({ users, name }: Props) => {
                       <tr
                         key={row.id}
                         className="border-b border-dashed last:border-b-0"
-                        onClick={() => {
-                          navigate(`/dashboard/users/${row.original._id}`);
-                        }}
                       >
                         {row.getVisibleCells().map((cell) => (
                           <td key={cell.id} className="p-3">

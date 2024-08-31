@@ -2,7 +2,7 @@ import { useGetUsersQuery } from "../../../Redux/api";
 import Breadcrumb from "../../../components/dashboard/Breadcrumb";
 import Table from "./Table";
 
-const Users = () => {
+const Finances = () => {
   const users = useGetUsersQuery(null);
 
   console.log(users?.data);
@@ -10,11 +10,9 @@ const Users = () => {
     <div>
       <Breadcrumb pageName="Users" />
 
-      {users?.data && users?.data?.length > 0 && (
-        <Table name="All Users" users={users?.data} />
-      )}
+      {users?.data && users?.data?.length > 0 && <Table users={users?.data} />}
     </div>
   );
 };
 
-export default Users;
+export default Finances;

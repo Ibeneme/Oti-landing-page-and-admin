@@ -64,7 +64,39 @@ export const api = createApi({
                 method: "GET",
                 params: args
             }),
-        })
+        }),
+        // User
+        getAUser: builder.query<User, string>({
+            query: (userId) => ({
+                url: `/admin/users/${userId}`,
+                method: "GET",
+
+            }),
+        }),
+        // Providers
+        getProviders: builder.query<User[], any>({
+            query: (args) => ({
+                url: "/admin/providers",
+                method: "GET",
+                params: args
+            }),
+        }),
+        // Courses
+        getCourses: builder.query<User[], any>({
+            query: (args) => ({
+                url: "/admin/courses",
+                method: "GET",
+                params: args
+            }),
+        }),
+        // Finances
+        getEarnings: builder.query<User[], any>({
+            query: (args) => ({
+                url: "/admin/earnings",
+                method: "GET",
+                params: args
+            }),
+        }),
     }),
 })
 
@@ -78,6 +110,12 @@ export const {
     useResetPasswordMutation,
 
     // USERS ENDPOINTS
-    useGetUsersQuery
+    useGetUsersQuery,
+    useGetAUserQuery,
+
+    // PROVIDERS ENDPOINTS
+    useGetProvidersQuery,
+    useGetCoursesQuery,
+    useGetEarningsQuery
 
 } = api
