@@ -123,7 +123,7 @@ const UserProfile = ({ user }: { user: User }) => {
 
             <div className="mx-auto max-w-180">
               <h4 className="font-semibold text-black dark:text-white">
-                {user?.firstName} Bio
+                {user?.firstName}'s Bio
               </h4>
               <p className="mt-4.5">{user?.bio || "No bio available"}</p>
             </div>
@@ -154,7 +154,7 @@ const UserProfile = ({ user }: { user: User }) => {
                         : "$0.00"}
                     </p>
                   </div>
-                  <div className="p-4 bg-white dark:bg-boxdark rounded-lg shadow">
+                  <div className="p-4 col-span-2 bg-white dark:bg-boxdark rounded-lg shadow">
                     <h5 className="text-lg font-semibold text-black dark:text-white mb-2">
                       Total Withdrawals
                     </h5>
@@ -166,6 +166,13 @@ const UserProfile = ({ user }: { user: User }) => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="mt-6.5">
+              {!user?.provider && (
+                <button className="relative text-white mx-auto w-full max-w-[300px] bg-primary p-2 flex items-center text-base font-medium leading-normal text-center align-middle rounded-md transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
+                  Make Provider
+                </button>
+              )}
             </div>
           </div>
         </div>
