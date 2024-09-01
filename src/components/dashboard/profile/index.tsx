@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
 import Breadcrumb from "../Breadcrumb";
 import { demoImg } from "../../../utils/constants";
 import { format } from "date-fns";
 import { fCurrency } from "../../../utils/format-number";
+import { User } from "../../../utils/types";
 
 const UserProfile = ({ user }: { user: User }) => {
   return (
@@ -12,7 +12,7 @@ const UserProfile = ({ user }: { user: User }) => {
       <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="relative z-20 h-35 md:h-65">
           <img
-            src={user?.profilePhoto || ""}
+            src={user?.profilePhoto || "/placeholder.svg"}
             alt="profile cover"
             className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
           />

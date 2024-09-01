@@ -10,7 +10,11 @@ const ViewUser = (props: Props) => {
   const { data, isLoading } = useGetAUserQuery(id as string);
   return (
     <div>
-      {isLoading ? <div>Loading...</div> : <UserProfile user={data as User} />}
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <UserProfile user={data as Course} />
+      )}
     </div>
   );
 };

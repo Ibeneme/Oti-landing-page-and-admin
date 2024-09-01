@@ -73,16 +73,19 @@ interface ChartTwoState {
   }[];
 }
 
-const BarChart: React.FC = () => {
+const BarChart: React.FC<{
+  latestWithdrawn: number;
+  latestDeposited: number;
+}> = ({ latestWithdrawn, latestDeposited }) => {
   const [state, setState] = useState<ChartTwoState>({
     series: [
       {
         name: "Deposits",
-        data: [44, 55, 41, 67, 22, 43, 65],
+        data: [0, 0, 0, 0, 0, 0, latestDeposited],
       },
       {
         name: "Withdrawals",
-        data: [13, 23, 20, 8, 13, 27, 15],
+        data: [0, 0, 0, 0, 0, 0, latestWithdrawn],
       },
     ],
   });

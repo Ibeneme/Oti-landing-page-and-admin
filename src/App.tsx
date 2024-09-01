@@ -9,6 +9,8 @@ import Users from "./pages/dashboard/users";
 import Home from "./pages/dashboard";
 import Providers from "./pages/dashboard/users/Providers";
 import ViewUser from "./pages/dashboard/users/View";
+import Courses from "./pages/dashboard/courses";
+import ViewCourse from "./pages/dashboard/courses/View";
 
 function App() {
   return (
@@ -23,7 +25,8 @@ function App() {
           <Route path="/dashboard/users" Component={Users} />
           <Route path="/dashboard/users/:id" Component={ViewUser} />
           <Route path="/dashboard/providers" Component={Providers} />
-          <Route path="/dashboard/courses" Component={Users} />
+          <Route path="/dashboard/courses" Component={Courses} />
+          <Route path="/dashboard/courses/:id" Component={ViewCourse} />
           <Route path="/dashboard/finances" Component={Users} />
         </Route>
         <Route path="*" element={<Navigate to="/404" replace />} />

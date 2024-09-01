@@ -1,4 +1,4 @@
-interface User {
+export interface User {
     kyc: {
         contentType: null | string;
     };
@@ -36,4 +36,35 @@ interface User {
     createdAt: string;
     updatedAt: string;
     __v: number;
+}
+
+export interface Course {
+    _id: string;
+    title: string;
+    description: string;
+    videos: Video[];
+    __v?: number;
+}
+
+export interface Video {
+    title: string;
+    url: string;
+    _id?: string;
+}
+
+interface UserStats {
+    newUsers: number;
+    verifiedUsers: number;
+    providers: number;
+    subscriptionsCreated: number;
+    communitySubscribed: number;
+    totalWithdrawn: number;
+    totalDeposited: number;
+}
+
+export interface Stats {
+    ["24h"]: UserStats;
+    ["7days"]: UserStats;
+    ["6months"]: UserStats;
+    ["1year"]: UserStats;
 }

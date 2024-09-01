@@ -9,10 +9,10 @@ import {
 } from "@tanstack/react-table";
 import { fCurrency } from "../../../utils/format-number";
 type Props = {
-  users: User[];
+  users: Course[];
 };
 
-const columnHelper = createColumnHelper<User>();
+const columnHelper = createColumnHelper<Course>();
 
 const columns = [
   columnHelper.accessor("firstName", {

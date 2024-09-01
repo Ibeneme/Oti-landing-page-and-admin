@@ -1,10 +1,13 @@
 import CardDataStats from "../../components/dashboard/CardDataStats";
 import BarChart from "../../components/dashboard/Charts/BarChart";
 import LineChart from "../../components/dashboard/Charts/LineChart";
-import { useGetUsersQuery } from "../../Redux/api";
+import { useGetStatsQuery, useGetUsersQuery } from "../../Redux/api";
 
 const Home = () => {
   const users = useGetUsersQuery(null);
+  const stats = useGetStatsQuery(null);
+  const statsData = stats?.data;
+  console.log(statsData?.["24h"]?.newUsers);
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -111,8 +114,15 @@ const Home = () => {
         </CardDataStats>
       </div>
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <LineChart />
-        <BarChart />
+        <LineChart
+          latest={statsData?.["24h"]?.newUsers || 0}
+          key={statsData?.["24h"]?.newUsers}
+        />
+        <BarChart
+          latestWithdrawn={statsData?.["24h"]?.totalWithdrawn || 0}
+          latestDeposited={statsData?.["24h"]?.totalDeposited || 0}
+          key={statsData?.["24h"]?.newUsers}
+        />
       </div>
     </div>
   );

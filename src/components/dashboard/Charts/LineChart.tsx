@@ -126,12 +126,13 @@ interface ChartOneState {
   }[];
 }
 
-const LineChart: React.FC = () => {
+const LineChart: React.FC<{ latest: number }> = ({ latest }) => {
+  console.log(latest, "latest");
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
         name: "User Growth",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, latest],
       },
 
       // {

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { apiUrl } from '../utils/constants'
 import { LoginFormValues } from '../pages/auth/types'
 import { RootState } from './store'
+import { Course, Stats, User } from '../utils/types'
 
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
@@ -18,6 +19,7 @@ export const api = createApi({
             return headers;
         },
     }),
+    tagTypes: ['Courses'],
     endpoints: (builder) => ({
         // Auth
         register: builder.mutation<any, LoginFormValues>({
@@ -56,6 +58,14 @@ export const api = createApi({
             })
         }),
 
+        // STATS
+        getStats: builder.query<Stats, any>({
+            query: () => ({
+                url: "/admin/user-stats",
+                method: "GET",
+            }),
+        }),
+
 
         // Users
         getUsers: builder.query<User[], any>({
@@ -82,15 +92,39 @@ export const api = createApi({
             }),
         }),
         // Courses
-        getCourses: builder.query<User[], any>({
+        getCourses: builder.query<Course[], any>({
             query: (args) => ({
                 url: "/admin/courses",
                 method: "GET",
                 params: args
             }),
+
+        }),
+        // Course
+        getCourse: builder.query<Course, string>({
+            query: (id) => ({
+                url: `/admin/courses/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['Courses']
+        }),
+        updateCourse: builder.mutation<Course, { id: string, course: Omit<Course, '_id' | '__v'> }>({
+            query: ({ id, course }) => ({
+                url: `/admin/courses/${id}`,
+                method: "PUT",
+                body: course
+            }),
+            invalidatesTags: ['Courses']
+        }),
+        deleteCourse: builder.mutation<Course, string>({
+            query: (id) => ({
+                url: `/admin/courses/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['Courses']
         }),
         // Finances
-        getEarnings: builder.query<User[], any>({
+        getEarnings: builder.query<Course[], any>({
             query: (args) => ({
                 url: "/admin/earnings",
                 method: "GET",
@@ -109,13 +143,22 @@ export const {
     useResendOtpMutation,
     useResetPasswordMutation,
 
+    // STATS ENDPOINTS
+    useGetStatsQuery,
+
     // USERS ENDPOINTS
     useGetUsersQuery,
     useGetAUserQuery,
 
     // PROVIDERS ENDPOINTS
     useGetProvidersQuery,
+
+    // COURSES ENDPOINTS
     useGetCoursesQuery,
+    useGetCourseQuery,
+    useUpdateCourseMutation,
+    useDeleteCourseMutation,
+
     useGetEarningsQuery
 
 } = api

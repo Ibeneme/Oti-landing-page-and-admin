@@ -33,6 +33,40 @@ const TextInput = ({ name, type, placeholder, label }: Props) => {
   );
 };
 
+export const DashboardTextInput = ({
+  name,
+  type,
+  placeholder,
+  label,
+}: Props) => {
+  const { errors, touched } = useFormikContext();
+  return (
+    <div
+      className={classNames("w-full flex flex-col justify-start", {
+        [styles.error]: getIn(errors, name) && getIn(touched, name),
+      })}
+    >
+      {label && (
+        <label
+          className="mb-2.5 block text-left text-black dark:text-white"
+          htmlFor={name}
+        >
+          {label}:
+        </label>
+      )}
+      <div className={styles.passwordContainer}>
+        <Field
+          name={name}
+          type={type}
+          className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+          placeholder={placeholder}
+        />
+      </div>
+      <ErrorMessage name={name} component="p" className={styles.errorMessage} />
+    </div>
+  );
+};
+
 export const PasswordInput = ({ name, placeholder, label }: Props) => {
   const { errors, touched } = useFormikContext();
   const [showPassword, setShowPassword] = useState(false);

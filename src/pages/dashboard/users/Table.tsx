@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { fCurrency } from "../../../utils/format-number";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../../utils/types";
 type Props = {
   users: User[];
   name: string;
@@ -61,9 +62,14 @@ const columns = [
     },
   }),
 
-  columnHelper.accessor("deposits", {
-    cell() {
-      return <p>{fCurrency(1000)}</p>;
+  columnHelper.accessor("totalBalance", {
+    header: () => <>Total Balance</>,
+    cell: (info) => {
+      return (
+        <span className="text-black dark:text-white">
+          {fCurrency(info?.getValue() || 0)}
+        </span>
+      );
     },
   }),
 
@@ -72,7 +78,10 @@ const columns = [
     cell: () => {
       // const id = info.getValue();
       return (
-        <div className="p-3 pr-0 text-end text-white flex items-center gap-x-2">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="p-3 pr-0 text-end text-white flex items-center gap-x-2"
+        >
           <button className="relative text-secondary-dark bg-[#2563EB] p-2 flex items-center text-base font-medium leading-normal text-center align-middle rounded-md transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
             Edit User
           </button>
@@ -161,7 +170,7 @@ const Table = ({ users, name }: Props) => {
                     {table.getRowModel().rows.map((row) => (
                       <tr
                         key={row.id}
-                        className="border-b border-dashed last:border-b-0"
+                        className="border-b border-dashed last:border-b-0 hover:bg-gray-100 cursor-pointer"
                         onClick={() => {
                           navigate(`/dashboard/users/${row.original._id}`);
                         }}
