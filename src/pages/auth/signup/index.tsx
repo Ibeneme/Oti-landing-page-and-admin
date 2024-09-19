@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import styles from "../auth.module.css";
 import { LoginFormValues } from "../types";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../Redux/store";
 import TextInput, { PasswordInput } from "../../../components/form/TextInput";
 import { superTwMerge } from "../../../utils";
 
@@ -12,7 +11,6 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [errorResponse, setError] = useState<string | []>("");
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   // Check for token on component mount
   useEffect(() => {
@@ -33,7 +31,7 @@ const LoginPage: React.FC = () => {
       .required("Required"),
   });
 
-  const handleSubmit = (values: LoginFormValues) => {
+  const handleSubmit = () => {
     setError("");
     setLoading(true); // Start loader
     // dispatch(adminLogin(values))

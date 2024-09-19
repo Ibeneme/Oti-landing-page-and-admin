@@ -1,4 +1,3 @@
-import React from "react";
 import { BsFillPatchCheckFill, BsPatchExclamationFill } from "react-icons/bs";
 import { demoImg } from "../../../utils/constants";
 import {
@@ -9,10 +8,10 @@ import {
 } from "@tanstack/react-table";
 import { fCurrency } from "../../../utils/format-number";
 type Props = {
-  users: Course[];
+  users: any[];
 };
 
-const columnHelper = createColumnHelper<Course>();
+const columnHelper = createColumnHelper<any>();
 
 const columns = [
   columnHelper.accessor("firstName", {

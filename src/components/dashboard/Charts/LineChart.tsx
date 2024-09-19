@@ -141,7 +141,7 @@ const LineChart: React.FC<{ latest: number }> = ({ latest }) => {
       // },
     ],
   });
-  const [selected, setSelected] = useState<"Day" | "Week" | "Month">("Day");
+  const [selected] = useState<"Day" | "Week" | "Month">("Day");
 
   const generateDateRange = (period: "Day" | "Week" | "Month") => {
     const today = new Date();

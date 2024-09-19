@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetAUserQuery } from "../../../Redux/api";
 import UserProfile from "../../../components/dashboard/profile";
