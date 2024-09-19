@@ -2,9 +2,14 @@ import Breadcrumb from "../Breadcrumb";
 import { demoImg } from "../../../utils/constants";
 import { format } from "date-fns";
 import { fCurrency } from "../../../utils/format-number";
-import { User } from "../../../utils/types";
+import { Comment, Post, User } from "../../../utils/types";
+import { useGetAuthorRequestsQuery } from "../../../Redux/api";
+import Carousel from "../../../components/Carousel";
 
 const UserProfile = ({ user }: { user: User }) => {
+  const { data: providerRequest } = useGetAuthorRequestsQuery(user?._id, {
+    skip: !user?.provider,
+  });
   return (
     <>
       <Breadcrumb pageName="Profile" />
@@ -16,7 +21,7 @@ const UserProfile = ({ user }: { user: User }) => {
             alt="profile cover"
             className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
           />
-          <div className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
+          {/* <div className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
             <label
               htmlFor="cover"
               className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-1 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
@@ -47,7 +52,7 @@ const UserProfile = ({ user }: { user: User }) => {
               </span>
               <span>Edit</span>
             </label>
-          </div>
+          </div> */}
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
           <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
@@ -174,6 +179,127 @@ const UserProfile = ({ user }: { user: User }) => {
                 </button>
               )}
             </div>
+
+            {user?.provider && (
+              <div className="mt-6.5">
+                <h4 className="mb-3.5 text-2xl font-semibold text-black dark:text-white">
+                  All Provider Signals
+                </h4>
+                <div className="space-y-4 grid grid-cols-3 w-full mx-auto">
+                  {providerRequest?.posts &&
+                  providerRequest?.posts?.length > 0 ? (
+                    providerRequest?.posts?.map((post: Post) => (
+                      <div
+                        key={post._id}
+                        className="overflow-hidden border border-stroke bg-white dark:bg-boxdark rounded-lg shadow pb-4"
+                      >
+                        <Carousel images={post.images} />
+                        <div className="text-left p-4">
+                          <h5 className="text-lg my-3 font-semibold text-black dark:text-white mb-2">
+                            {post.title}
+                          </h5>
+                          <div className="mb-2">
+                            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                              Pair:{" "}
+                            </span>
+                            <span className="text-sm text-primary">
+                              {post.pair}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 mb-3">
+                            <div>
+                              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                Entry:{" "}
+                              </span>
+                              <span className="text-sm text-black dark:text-white">
+                                {post?.content || "No content available"}
+                              </span>
+                            </div>
+                            {post?.sl && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                  SL:{" "}
+                                </span>
+                                <span className="text-sm text-danger">
+                                  {post?.sl}
+                                </span>
+                              </div>
+                            )}
+                            {post?.tp1 && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                  TP1:{" "}
+                                </span>
+                                <span className="text-sm text-success">
+                                  {post.tp1}
+                                </span>
+                              </div>
+                            )}
+                            {post.tp2 && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                  TP2:{" "}
+                                </span>
+                                <span className="text-sm text-success">
+                                  {post.tp2}
+                                </span>
+                              </div>
+                            )}
+                            {post.tp3 && (
+                              <div>
+                                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                  TP3:{" "}
+                                </span>
+                                <span className="text-sm text-success">
+                                  {post.tp3}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex flex-col justify-between items-start text-xs text-gray-500 dark:text-gray-400 mb-2">
+                            <span>Views: {post.views}</span>
+                            <span>
+                              Created:{" "}
+                              {new Date(post.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="mt-3">
+                            <h6 className="text-sm font-medium text-black dark:text-white mb-2">
+                              Comments ({post.comments.length})
+                            </h6>
+                            <div className="space-y-2">
+                              {post.comments
+                                .slice(0, 2)
+                                .map((comment: Comment, idx) => (
+                                  <div
+                                    key={comment._id}
+                                    className="text-xs text-gray-600 dark:text-gray-400"
+                                  >
+                                    <span className="font-medium">
+                                      {idx + 1}
+                                      {". "}
+                                    </span>
+                                    {comment.msg}
+                                  </div>
+                                ))}
+                              {post.comments.length > 2 && (
+                                <div className="text-xs text-primary cursor-pointer">
+                                  View all comments
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="w-full col-span-3 grid text-gray-500 text-center dark:text-gray-400">
+                      No signals available
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

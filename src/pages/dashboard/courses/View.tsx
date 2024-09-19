@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { EditText, EditTextarea } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Course, Video } from "../../../utils/types";
+import { Course, Section, Video } from "../../../utils/types";
 import * as Yup from "yup";
 import { Form, Formik, FormikErrors, ErrorMessage } from "formik";
 import { BsPlus } from "react-icons/bs";
@@ -16,6 +16,8 @@ import Modal from "../../../components/modals/Modal";
 import { DashboardTextInput } from "../../../components/form/TextInput";
 import DeleteModal from "../../../components/modals/DeleteModal";
 import useLoader from "../../../hooks/useLoader";
+
+import { ChevronDown, ChevronUp, Plus, Edit, Trash } from "lucide-react";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -43,7 +45,7 @@ const ViewCourse = () => {
   const { data: course, isLoading: isLoadingCourse } = useGetCourseQuery(
     id as string
   );
-  const [videos, setVideos] = useState<Video[]>(course?.videos || []);
+  const [sections, setSections] = useState<Section[]>(course?.sections || []);
   const [title, setTitle] = useState<string>(course?.title || "");
   const [description, setDescription] = useState<string>(
     course?.description || ""
@@ -66,7 +68,7 @@ const ViewCourse = () => {
 
   useEffect(() => {
     if (course) {
-      setVideos(course?.videos || []);
+      setSections(course?.sections || []);
       setTitle(course?.title || "");
       setDescription(course?.description || "");
     }
@@ -74,10 +76,10 @@ const ViewCourse = () => {
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
-    const items = Array.from(videos);
+    const items = Array.from(sections);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    setVideos(items);
+    setSections(items);
   };
 
   const handleAddVideo = (
@@ -103,6 +105,16 @@ const ViewCourse = () => {
     (Video & { index: number }) | null
   >(null);
 
+  const [expandedSections, setExpandedSections] = useState<string[]>([]);
+
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections((prev) =>
+      prev.includes(sectionId)
+        ? prev.filter((id) => id !== sectionId)
+        : [...prev, sectionId]
+    );
+  };
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -125,19 +137,19 @@ const ViewCourse = () => {
         Course Information
       </h1>
       <Formik
-        initialValues={{ title, description, videos }}
+        initialValues={{ title, description, videos: sections }}
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit={(values, { setSubmitting }) => {
           console.log(values);
-          handleUpdateCourse(values);
+          // handleUpdateCourse(values);
           setSubmitting(false);
         }}
       >
         {({
           values,
           errors,
-          touched,
+          // touched,
           handleChange,
           isSubmitting,
           dirty,
@@ -163,6 +175,76 @@ const ViewCourse = () => {
                 value={values.description}
                 onChange={handleChange}
               />
+
+              <div className="space-y-4">
+                <div className="flex items-center mb-4 gap-x-3">
+                  <h3 className="text-xl font-semibold dark:text-white">
+                    Sections{" "}
+                  </h3>
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="bg-primary hover:bg-primary/50 text-white font-bold w-8 aspect-square rounded-full flex items-center justify-center"
+                  >
+                    <BsPlus size={20} />
+                  </button>
+                </div>
+                {sections.map((section) => (
+                  <div key={section._id} className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h2 className="text-xl font-semibold">{section.title}</h2>
+                      <div className="flex space-x-2">
+                        <button className="border border-gray p-2 rounded-md">
+                          <Edit className="h-4 w-4" />
+                        </button>
+                        <button className="border border-gray p-2 rounded-md">
+                          <Trash className="h-4 w-4" />
+                        </button>
+                        <button
+                          className="border border-gray p-2 rounded-md"
+                          onClick={() => toggleSection(section._id)}
+                        >
+                          {expandedSections.includes(section._id) ? (
+                            <ChevronUp className="h-4 w-4" />
+                          ) : (
+                            <ChevronDown className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                    {expandedSections.includes(section._id) && (
+                      <div className="ml-4 space-y-2">
+                        {section.subsections.map((subsection) => (
+                          <div
+                            key={subsection._id}
+                            className="flex items-center justify-between py-2 bg-gray-100 rounded"
+                          >
+                            <span>{subsection.title}</span>
+                            <div className="flex space-x-2">
+                              <button>
+                                <Edit className="h-4 w-4" />
+                              </button>
+                              <button>
+                                <Trash className="h-4 w-4" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="flex items-center mt-2">
+                          <input
+                            placeholder="New subsection title"
+                            className="flex-1 p-2 bg-transparent border rounded-md border-gray mr-2"
+                          />
+                          <button className="flex items-center gap-x-[2px] bg-primary text-white p-2 rounded-md">
+                            <Plus className="mr-2 h-4 w-4" /> Add Subsection
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* OLD */}
 
               <div className="flex items-center mb-4 gap-x-3">
                 <h3 className="text-xl font-semibold dark:text-white">
@@ -224,8 +306,9 @@ const ViewCourse = () => {
                                 />
                               </div>
                               <button
-                                onClick={() =>
-                                  setShowDeleteModal({ ...video, index })
+                                onClick={
+                                  () => {}
+                                  // setShowDeleteModal({ ...video, index })
                                 }
                                 className="text-red-500 hover:text-red-700"
                               >
@@ -261,8 +344,9 @@ const ViewCourse = () => {
               <AddVideoModal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
-                onSubmit={(title, url) =>
-                  handleAddVideo(values.videos, setFieldValue, title, url)
+                onSubmit={
+                  (title, url) => {}
+                  // handleAddVideo(values.videos, setFieldValue, title, url)
                 }
               />
 
@@ -270,13 +354,14 @@ const ViewCourse = () => {
                 isOpen={!!showDeleteModal}
                 onClose={handleCloseDeleteModal}
                 title="Delete Video"
-                message={`Are you sure you want to delete video with the title: ${showDeleteModal?.title}?`}
+                message={`Are you sure you want to delete video with the title: ?`}
+                // ${showDeleteModal?.title}
                 onConfirm={() => {
-                  handleDeleteVideo(
-                    values.videos,
-                    setFieldValue,
-                    showDeleteModal?.index as number
-                  );
+                  // handleDeleteVideo(
+                  //   values.videos,
+                  //   setFieldValue,
+                  //   showDeleteModal?.index as number
+                  // );
                   handleCloseDeleteModal();
                 }}
                 confirmText="Delete"

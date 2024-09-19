@@ -60,8 +60,8 @@ const Home = () => {
         </CardDataStats>
 
         <CardDataStats
-          title="Total Deposits"
-          total="$45,2K"
+          title="Cummulative Deposits"
+          total="$0"
           rate="4.35%"
           levelUp
         >
@@ -89,8 +89,8 @@ const Home = () => {
         </CardDataStats>
 
         <CardDataStats
-          title="Total Withdrawals"
-          total="$3.456K"
+          title="Cummulative Withdrawals"
+          total="$0"
           rate="0.43%"
           levelUp
         >

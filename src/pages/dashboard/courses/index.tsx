@@ -29,11 +29,11 @@ const Courses = () => {
                 <span className="sr-only">View Course</span>
               </Link>
               <div className="absolute top-2 right-2 z-20 bg-primary text-white px-2 py-1 rounded-full text-xs font-semibold">
-                {course.videos.length}{" "}
-                {course.videos.length === 1 ? "Video" : "Videos"}
+                {course.sections.length}{" "}
+                {course.sections.length === 1 ? "Section" : "Sections"}
               </div>
               <img
-                src="/placeholder.svg"
+                src={course?.image ?? "/placeholder.svg"}
                 alt="Course Thumbnail"
                 width="300"
                 height="200"

@@ -6,12 +6,12 @@ interface Admin {
 }
 
 interface InitialState {
-    token: null;
+    token: string | null;
     user: Admin | null;
 }
 
 const initialState: InitialState = {
-    token: null,
+    token: localStorage.getItem("token") ?? null,
     user: null,
 };
 export const userSlice = createSlice({
@@ -21,6 +21,7 @@ export const userSlice = createSlice({
         resetAuth(state) {
             state.token = null;
             state.user = null;
+            localStorage.removeItem("token");
         },
     },
     extraReducers: (builder) => {
@@ -30,6 +31,7 @@ export const userSlice = createSlice({
                 console.log(payload);
                 const { token } = payload;
                 state.token = token;
+                localStorage.setItem("token", token);
                 state.user = {
                     email: meta.arg.originalArgs.email
                 }

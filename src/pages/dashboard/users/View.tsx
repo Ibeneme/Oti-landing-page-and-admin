@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetAUserQuery } from "../../../Redux/api";
 import UserProfile from "../../../components/dashboard/profile";
+import { User } from "@/utils/types";
 
 type Props = {};
 
@@ -10,11 +11,7 @@ const ViewUser = (props: Props) => {
   const { data, isLoading } = useGetAUserQuery(id as string);
   return (
     <div>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <UserProfile user={data as Course} />
-      )}
+      {isLoading ? <div>Loading...</div> : <UserProfile user={data as User} />}
     </div>
   );
 };
