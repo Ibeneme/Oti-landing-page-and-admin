@@ -1,13 +1,10 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { Helmet } from "react-helmet-async";
 
-type Props = {};
-
-const Error404 = (props: Props) => {
+const Error404 = () => {
   return (
     <>
       <Helmet>

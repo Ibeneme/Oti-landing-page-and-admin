@@ -2,11 +2,9 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetAUserQuery } from "../../../Redux/api";
 import UserProfile from "../../../components/dashboard/profile";
-import { User } from "@/utils/types";
+import { User } from "../../../utils/types";
 
-type Props = {};
-
-const ViewUser = (props: Props) => {
+const ViewUser = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetAUserQuery(id as string);
   return (

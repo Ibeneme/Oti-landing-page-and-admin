@@ -13,6 +13,7 @@ import Courses from "./pages/dashboard/courses";
 import ViewCourse from "./pages/dashboard/courses/View";
 import { PersistGate } from "redux-persist/integration/react";
 import Requests from "./pages/dashboard/users/requests";
+import UserRequestsView from "./pages/dashboard/users/requests/View";
 function App() {
   return (
     <Provider store={store}>
@@ -30,7 +31,7 @@ function App() {
             <Route path="/dashboard/users/requests" Component={Requests} />
             <Route
               path="/dashboard/users/requests/:type"
-              Component={Requests}
+              Component={UserRequestsView}
             />
             <Route path="/dashboard/users/:id" Component={ViewUser} />
             <Route

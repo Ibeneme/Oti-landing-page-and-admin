@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { apiUrl } from '../utils/constants'
 import { LoginFormValues } from '../pages/auth/types'
 import { RootState } from './store'
-import { Course, Response, Stats, User } from '../utils/types'
+import { Course, Response, Stats, User, UserRequest } from '../utils/types'
 
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
@@ -139,6 +139,14 @@ export const api = createApi({
                 method: "GET",
             }),
         }),
+
+        // User Requests
+        getRequestList: builder.query<{ statuses: UserRequest[] }, string>({
+            query: (type) => ({
+                url: `/requests/${type === "community" ? "" : type === "provider" ? "pro-trader" : "academy"}`,
+                method: "GET",
+            }),
+        }),
     }),
 })
 
@@ -170,6 +178,11 @@ export const {
     // Author Requests
     useGetAuthorRequestsQuery,
 
+    // User Requests
+    useGetRequestListQuery,
+
     useGetEarningsQuery
+
+
 
 } = api

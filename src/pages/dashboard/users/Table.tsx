@@ -1,4 +1,3 @@
-import React from "react";
 import { BsFillPatchCheckFill, BsPatchExclamationFill } from "react-icons/bs";
 import { demoImg } from "../../../utils/constants";
 import {

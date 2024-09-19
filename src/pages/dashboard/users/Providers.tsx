@@ -1,4 +1,3 @@
-import React from "react";
 import Breadcrumb from "../../../components/dashboard/Breadcrumb";
 import { useGetProvidersQuery } from "../../../Redux/api";
 import Table from "./Table";

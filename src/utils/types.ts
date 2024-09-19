@@ -145,3 +145,19 @@ export interface Response {
     authorId: string;
     posts: Post[];
 }
+
+export interface UserRequest {
+    _id: string;
+    id: string | null;
+    durationInDays: number;
+    price: number;
+    status: string;
+    subscriberId: string;
+    imageProof: string;
+    firstName: string;
+    lastName: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    isExpired: boolean;
+}
