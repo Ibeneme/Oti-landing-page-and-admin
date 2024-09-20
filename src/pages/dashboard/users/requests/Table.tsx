@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { BsFillPatchCheckFill, BsPatchExclamationFill } from "react-icons/bs";
 import {
   createColumnHelper,
@@ -7,6 +8,7 @@ import {
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 import { UserRequest } from "../../../../utils/types";
+import Modal from "../../../../components/modals/Modal";
 
 type Props = {
   data: UserRequest[];
@@ -17,6 +19,7 @@ const columnHelper = createColumnHelper<UserRequest>();
 
 const columns = [
   columnHelper.accessor("firstName", {
+    header: () => <>Name</>,
     cell: (info) => {
       const user = info.row.original;
       return (
@@ -31,13 +34,14 @@ const columns = [
     },
   }),
   columnHelper.accessor("durationInDays", {
+    header: () => <>Duration</>,
     cell: (info) => (
       <span className="text-black dark:text-white">{info.getValue()}</span>
     ),
   }),
 
   columnHelper.accessor("isExpired", {
-    header: () => <>Expired</>,
+    header: () => <>Is Expired</>,
     cell: (info) => {
       const verified = info.getValue();
       return (
@@ -56,15 +60,18 @@ const columns = [
   columnHelper.accessor("_id", {
     header: () => <>Actions</>,
     cell: (info) => {
-      // const id = info.getValue();
+      const { setSelectedRequest } = info.table.options.meta as {
+        setSelectedRequest: (request: UserRequest | null) => void;
+      };
       return (
         <div
           onClick={(e) => e.stopPropagation()}
           className="p-3 pr-0 text-end text-white flex items-center gap-x-2"
         >
           <button
-            disabled={info.row.original.isExpired}
-            className="relative text-secondary-dark bg-[#2563EB] p-2 flex items-center text-base font-medium leading-normal text-center align-middle rounded-md transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
+            onClick={() => setSelectedRequest(info.row.original)}
+            // disabled={info.row.original.isExpired}
+            className="relative text-secondary-dark bg-[#2563EB] p-2 flex items-center text-base font-medium leading-normal text-center align-middle rounded-md transition-colors duration-200 ease-in-out shadow-none border-0 justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             View Request
           </button>
@@ -76,11 +83,32 @@ const columns = [
 
 const Table = ({ data, name }: Props) => {
   const navigate = useNavigate();
+  const [selectedRequest, setSelectedRequest] = useState<UserRequest | null>(
+    null
+  );
+
   const table = useReactTable({
     data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      setSelectedRequest: (request: UserRequest | null) =>
+        setSelectedRequest(request),
+    },
   });
+
+  const handleAccept = () => {
+    // Handle accept logic here
+    console.log("Request accepted");
+    setSelectedRequest(null);
+  };
+
+  const handleReject = () => {
+    // Handle reject logic here
+    console.log("Request rejected");
+    setSelectedRequest(null);
+  };
+
   return (
     <div className="w-full flex flex-wrap mb-5">
       <div className="w-full rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -91,40 +119,13 @@ const Table = ({ data, name }: Props) => {
                 {name}
               </h4>
               <div className="relative flex flex-wrap items-center my-2">
-                {/* <a
-                    href="javascript:void(0)"
-                    className="inline-block text-[.925rem] font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-150 ease-in-out text-light-inverse bg-light-dark border-light shadow-none border-0 py-2 px-5 hover:bg-secondary active:bg-light focus:bg-light"
-                  >
-                    {" "}
-                    See other projects{" "}
-                  </a> */}
+                {/* Additional content can be added here if needed */}
               </div>
             </div>
             <div className="flex-auto block py-8 pt-6">
               <div className="overflow-x-auto">
                 <table className="w-full my-0 align-middle text-dark border-neutral-200">
                   <thead className="align-middle rounded-sm bg-gray-2 dark:bg-meta-4">
-                    {/* <tr className="font-semibold text-[0.95rem] text-secondary-dark">
-                      <th className="text-start min-w-[175px] p-2.5 xl:p-5 text-sm font-medium uppercase xsm:text-base">
-                        Name
-                      </th>
-                      <th className="p-2.5 xl:p-5 text-sm font-medium uppercase xsm:text-base min-w-[100px]">
-                        Email
-                      </th>
-                      <th className="p-2.5 xl:p-5 text-sm font-medium uppercase xsm:text-base pr-12 min-w-[175px]">
-                        STATUS
-                      </th>
-                      <th className="p-2.5 xl:p-5 text-sm font-medium uppercase xsm:text-base min-w-[100px]">
-                        Total Balance
-                      </th>
-                      <th className="p-2.5 xl:p-5 text-sm font-medium uppercase xsm:text-base pr-12 min-w-[100px]">
-                        Total Earnings
-                      </th>
-                      <th className="p-2.5 xl:p-5 text-sm font-medium uppercase xsm:text-base min-w-[50px]">
-                        Action
-                      </th>
-                    </tr> */}
-
                     {table.getHeaderGroups().map((headerGroup) => (
                       <tr
                         key={headerGroup.id}
@@ -165,64 +166,6 @@ const Table = ({ data, name }: Props) => {
                         ))}
                       </tr>
                     ))}
-
-                    {/* {users.map((user) => (
-                      <tr
-                        className="border-b border-dashed last:border-b-0"
-                        key={user._id}
-                      >
-                        <td className="p-3">
-                          <div className="flex items-center">
-                            <div className="relative inline-block shrink-0 rounded-2xl me-3">
-                              <img
-                                src={demoImg}
-                                className="w-[40px] aspect-square inline-block shrink-0 rounded-lg"
-                                alt=""
-                              />
-                            </div>
-                            <div className="flex flex-col justify-start">
-                              <p className="text-black dark:text-white">
-                                {user.firstName + " " + user.lastName}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="p-3 pr-0 text-center">
-                          <span className="text-black dark:text-white">
-                            {user.email}
-                          </span>
-                        </td>
-                        <td className="p-3 ">
-                          <span className="text-center gap-x-1 align-baseline inline-flex items-center px-2 py-1 text-black dark:text-white">
-                            {user.verified ? (
-                              <BsFillPatchCheckFill color="green" size={16} />
-                            ) : (
-                              <BsPatchExclamationFill color="red" size={16} />
-                            )}
-                            {user.verified ? "Verified" : "Unverified"}{" "}
-                          </span>
-                        </td>
-                        <td className="p-3 pr-12 text-center">
-                          <span className="text-center align-baseline inline-flex px-4 py-3 mr-auto items-center text-black dark:text-white">
-                            {" "}
-                            {user.totalBalance}{" "}
-                          </span>
-                        </td>
-                        <td className="pr-0 text-start">
-                          <span className="text-black dark:text-white">
-                            {user.totalEarnings}
-                          </span>
-                        </td>
-                        <td className="p-3 pr-0 text-end text-white flex items-center gap-x-2">
-                          <button className="relative text-secondary-dark bg-[#2563EB] p-2 flex items-center text-base font-medium leading-normal text-center align-middle rounded-md transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
-                            Edit UserRequest
-                          </button>
-                          <button className="relative text-secondary-dark bg-red-600 p-2 flex items-center text-base font-medium leading-normal text-center align-middle rounded-md transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
-                            Delete UserRequest
-                          </button>
-                        </td>
-                      </tr>
-                    ))} */}
                   </tbody>
                 </table>
               </div>
@@ -230,6 +173,44 @@ const Table = ({ data, name }: Props) => {
           </div>
         </div>
       </div>
+
+      {selectedRequest && (
+        <Modal isOpen onClose={() => setSelectedRequest(null)}>
+          <div className="flex flex-col gap-4">
+            <div className="p-4">
+              <h3 className="pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
+                Request Details
+              </h3>
+              <p>
+                <strong>Name:</strong> {selectedRequest.firstName}{" "}
+                {selectedRequest.lastName}
+              </p>
+              <p>
+                <strong>Duration:</strong> {selectedRequest.durationInDays} days
+              </p>
+              <p>
+                <strong>Expired:</strong>{" "}
+                {selectedRequest.isExpired ? "Yes" : "No"}
+              </p>
+              {/* Add more request details here */}
+            </div>
+            <div className="flex justify-end gap-4 mt-4">
+              <button
+                onClick={handleAccept}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                Accept
+              </button>
+              <button
+                onClick={handleReject}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Reject
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

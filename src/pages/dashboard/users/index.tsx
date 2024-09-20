@@ -1,11 +1,13 @@
 import { useGetUsersQuery } from "../../../Redux/api";
 import Breadcrumb from "../../../components/dashboard/Breadcrumb";
+import useLoader from "../../../hooks/useLoader";
 import Table from "./Table";
 
 const Users = () => {
   const users = useGetUsersQuery(null);
 
-  console.log(users?.data);
+  useLoader(users.isLoading, users?.error);
+
   return (
     <div>
       <Breadcrumb pageName="Users" />

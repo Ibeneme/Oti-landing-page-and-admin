@@ -14,12 +14,14 @@ import ViewCourse from "./pages/dashboard/courses/View";
 import { PersistGate } from "redux-persist/integration/react";
 import Requests from "./pages/dashboard/users/requests";
 import UserRequestsView from "./pages/dashboard/users/requests/View";
+import LandingPageIndex from "./LandingPage/Index";
+import AddCourse from "./pages/dashboard/courses/Add";
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Routes>
-          <Route path="/" element={<Navigate to={"/dashboard"} replace />} />
+          <Route path="/" element={<LandingPageIndex />} />
           <Route path="/login" Component={LoginPage} />
           <Route path="/reset-password" Component={ResetPassword} />
           <Route path="/404" Component={Error404} />
@@ -40,6 +42,7 @@ function App() {
             />
             <Route path="/dashboard/providers" Component={Providers} />
             <Route path="/dashboard/courses" Component={Courses} />
+            <Route path="/dashboard/courses/add" Component={AddCourse} />
             <Route path="/dashboard/courses/:id" Component={ViewCourse} />
             <Route path="/dashboard/finances" Component={Users} />
           </Route>

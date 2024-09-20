@@ -1,4 +1,5 @@
 import Breadcrumb from "../../../components/dashboard/Breadcrumb";
+import useLoader from "../../../hooks/useLoader";
 import { useGetProvidersQuery } from "../../../Redux/api";
 import Table from "./Table";
 
@@ -6,6 +7,7 @@ import Table from "./Table";
 
 const Providers = () => {
   const providers = useGetProvidersQuery(null);
+  useLoader(providers.isLoading, providers?.error);
   return (
     <div>
       <Breadcrumb pageName="Providers" />

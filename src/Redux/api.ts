@@ -108,6 +108,17 @@ export const api = createApi({
             }),
             providesTags: ['Courses']
         }),
+
+        createCourse: builder.mutation<Course, FormData>({
+            query: (courseData) => ({
+                url: "/courses/create-course",
+                method: "POST",
+                body: courseData,
+            }),
+            invalidatesTags: ['Courses']
+        }),
+
+
         updateCourse: builder.mutation<Course, { id: string, course: Omit<Course, '_id' | '__v'> }>({
             query: ({ id, course }) => ({
                 url: `/admin/courses/${id}`,
@@ -172,6 +183,7 @@ export const {
     // COURSES ENDPOINTS
     useGetCoursesQuery,
     useGetCourseQuery,
+    useCreateCourseMutation,
     useUpdateCourseMutation,
     useDeleteCourseMutation,
 
